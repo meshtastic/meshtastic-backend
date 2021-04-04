@@ -15,7 +15,7 @@ application {
 }
 
 compileKotlin {
-    // kotlinOptions.useIR = true // Try using the new compiler https://blog.jetbrains.com/kotlin/2021/02/the-jvm-backend-is-in-beta-let-s-make-it-stable-together/
+    kotlinOptions.useIR = true // Try using the new compiler https://blog.jetbrains.com/kotlin/2021/02/the-jvm-backend-is-in-beta-let-s-make-it-stable-together/
 }
 
 kotlin {

@@ -7,7 +7,7 @@ import org.meshtastic.common.model.Channel
  */
 class ChannelDB {
     // FIXME hack temporary DB with the default channel
-    private val db = listOf(Channel()).map { it.name to it }.toMap()
+    private val db = listOf(Channel.default).map { it.name to it }.toMap()
 
     fun getById(id: String) = db.get(id)
 }
