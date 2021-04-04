@@ -1,8 +1,10 @@
 plugins {
     id 'java'
     id 'application'
+    id 'idea'
     id "org.jetbrains.kotlin.jvm" version "1.4.32"
     id 'org.jetbrains.intellij' version '0.7.2'
+    id 'com.google.protobuf' version '0.8.15'
 }
 
 group 'org.meshtastic'
@@ -13,7 +15,30 @@ application {
 }
 
 compileKotlin {
-    kotlinOptions.useIR = true // Try using the new compiler https://blog.jetbrains.com/kotlin/2021/02/the-jvm-backend-is-in-beta-let-s-make-it-stable-together/
+    // kotlinOptions.useIR = true // Try using the new compiler https://blog.jetbrains.com/kotlin/2021/02/the-jvm-backend-is-in-beta-let-s-make-it-stable-together/
+}
+
+kotlin {
+}
+
+protobuf {
+    generatedFilesBaseDir = "$buildDir/generated/sources/proto"
+}
+
+idea {
+    module {
+        // So intellij can do code completion on the generated protobuf files
+        generatedSourceDirs += file('build/generated/sources')
+    }
+}
+
+sourceSets {
+    main {
+        java {
+            // not needed
+            // srcDirs = ['$buildDir/generated/sources/proto/main/java']
+        }
+    }
 }
 
 repositories {
@@ -24,13 +49,17 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 
+    // MQTT client lib
     // https://mvnrepository.com/artifact/org.eclipse.paho/org.eclipse.paho.client.mqttv3
     implementation group: 'org.eclipse.paho', name: 'org.eclipse.paho.client.mqttv3', version: '1.2.5'
+
+    implementation 'com.google.protobuf:protobuf-java:3.15.7'
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
 intellij {
     version '2020.3.3'
+
 }
 
 patchPluginXml {
