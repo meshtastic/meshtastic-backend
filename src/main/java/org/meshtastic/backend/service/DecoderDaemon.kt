@@ -4,6 +4,7 @@ import com.geeksville.mesh.MQTTProtos
 import com.geeksville.mesh.MeshProtos
 import mu.KotlinLogging
 import org.meshtastic.backend.model.ChannelDB
+import org.meshtastic.common.model.decodeAsJson
 import java.io.Closeable
 
 /**
@@ -39,11 +40,24 @@ class DecoderDaemon(private val channels: ChannelDB) : Closeable {
                             val decodedPacket = p.toBuilder().clearEncrypted().setDecoded(decoded).build()
                             val decodedEnvelope = e.toBuilder().setPacket(decodedPacket).build()
 
-                            logger.debug("Republishing $topic as $decoded")
-
+                            // Show nodenums as standard nodeid strings
+                            val nodeId = "!%08x".format(e.packet.from)
                             mqtt.publish(
-                                "mesh/clear/${e.channelId}/${e.packet.from}/${decoded.portnumValue}",
+                                "mesh/clear/${e.channelId}/${nodeId}/${decoded.portnumValue}",
                                 decodedEnvelope.toByteArray())
+
+                            // See if we can also decode it as JSON
+                            val json = decodeAsJson(decoded.portnumValue, decodedPacket)
+                            if(json != null) {
+                                val jsonTopic = "mesh/json/${e.channelId}/${nodeId}/${decoded.portnum}"
+                                mqtt.publish(
+                                    jsonTopic,
+                                    json.toByteArray())
+                                logger.info("Republished $jsonTopic as $json")
+                            }
+                            else {
+                                logger.info("Republished $topic as cleartext")
+                            }
                         }
                         catch(ex: Exception) {
                             // Probably bad PSK

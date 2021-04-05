@@ -5,6 +5,7 @@ plugins {
     id "org.jetbrains.kotlin.jvm" version "1.4.32"
     id 'org.jetbrains.intellij' version '0.7.2'
     id 'com.google.protobuf' version '0.8.15'
+    id 'org.jetbrains.kotlin.plugin.serialization' version "1.4.32"
 }
 
 group 'org.meshtastic'
@@ -54,6 +55,11 @@ dependencies {
     implementation group: 'org.eclipse.paho', name: 'org.eclipse.paho.client.mqttv3', version: '1.2.5'
 
     implementation 'com.google.protobuf:protobuf-java:3.15.7'
+
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0"
+
+    // https://mvnrepository.com/artifact/com.googlecode.protobuf-java-format/protobuf-java-format
+    implementation group: 'com.googlecode.protobuf-java-format', name: 'protobuf-java-format', version: '1.4'
 
     // for logging see https://github.com/MicroUtils/kotlin-logging/wiki
     implementation 'io.github.microutils:kotlin-logging-jvm:2.0.6'

@@ -6,20 +6,27 @@ This is poorly structured and currently mostly private to @geeksville
 
 * Unify model.Channel with android code!
 
-## Device TODO
+## Python TODO
 
 * add test case of preencrypting in the python tool (and sending through a node that lacks keys)
-* leave encrypted messages as forwarded (need fixes on both tx and rx sides)
+
+## Android TODO
+
+* Give place in android app for users to select which channel they are sending on (and which channels they are watching)
+
+## Device TODO
+
+* In MQTT:onPublish use the global channel ID to find the PSK/channel - not the (much weaker) channel hash
+* DONE leave encrypted messages as forwarded (need fixes on both tx and rx sides)
 * DONE have sim provide a fake wifi connection status saying connected
 * DONE don't start MQTT if we don't have wifi connected
-* have plugin send uplinks from mesh
-* have plugin send downlinks to mesh
+* DONE have plugin send uplinks to mesh
+* have plugin send downlinks from mesh
 * DONE don't decrypt messages before uplinking them to MQTT (move out of plugin)
 * mqtt.meshtastic.org should have VERY basic auth at launch (to prevent abuse)
 * make a GlobalChat channel as an initial test (with a well known AES128 key), figure out how globally unique IDs work
-* Give place in android app for users to select which channel they are sending on (and which channels they are watching)
 * attempt reconnect to server if internet connectivity changes
-* don't bother contacting server if we don't have any uplink/downlink channels
+* DONE don't bother contacting server if we don't have any uplink/downlink channels
 * DONE test on ESP32
 * no need for python gateway to web initially: because both the simulator and ESP32 can talk wifi directly
 * if simmesh_name is set in preferences, create the MQTTSimInterface using that as the global channel_id
