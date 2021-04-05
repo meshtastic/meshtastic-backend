@@ -1,5 +1,6 @@
 package org.meshtastic.common.model
 
+import com.geeksville.mesh.MQTTProtos
 import com.geeksville.mesh.MeshProtos
 import com.geeksville.mesh.Portnums
 import com.google.protobuf.GeneratedMessageV3
@@ -7,12 +8,15 @@ import com.googlecode.protobuf.format.JsonFormat
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 
+@Serializable
+private class EnvelopeJSON(val channelId: String, val gatewayId: String, val packet: JsonObject)
+
 /**
  * Try to decode a message as JSON if possible
  */
-fun decodeAsJson(portNum: Int, p: MeshProtos.MeshPacket): String? {
-
-    if(p.payloadVariantCase == MeshProtos.MeshPacket.PayloadVariantCase.DECODED) {
+fun decodeAsJson(portNum: Int, e: MQTTProtos.ServiceEnvelope): String? {
+    if(e.hasPacket() && e.packet.payloadVariantCase == MeshProtos.MeshPacket.PayloadVariantCase.DECODED) {
+        val p = e.packet
         val formatter = JsonFormat()
         val packetJsonStr = formatter.printToString(p)
         val packetJSON = Json.parseToJsonElement(packetJsonStr) as JsonObject
@@ -25,7 +29,9 @@ fun decodeAsJson(portNum: Int, p: MeshProtos.MeshPacket): String? {
                 }
                 put("decoded", newDecoded)
             }
-            return Json.encodeToString(newJSON)
+
+            val env = EnvelopeJSON(e.channelId, e.gatewayId, newJSON)
+            return Json.encodeToString(env)
         }
 
         val port = Portnums.PortNum.forNumber(portNum)

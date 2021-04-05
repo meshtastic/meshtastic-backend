@@ -47,7 +47,7 @@ class DecoderDaemon(private val channels: ChannelDB) : Closeable {
                                 decodedEnvelope.toByteArray())
 
                             // See if we can also decode it as JSON
-                            val json = decodeAsJson(decoded.portnumValue, decodedPacket)
+                            val json = decodeAsJson(decoded.portnumValue, decodedEnvelope)
                             if(json != null) {
                                 val jsonTopic = "mesh/json/${e.channelId}/${nodeId}/${decoded.portnum}"
                                 mqtt.publish(
