@@ -22,13 +22,14 @@ application {
 }
 
 java {
-    sourceCompatibility = JavaVersion.VERSION_11
+    // We are staying with jdk 8 for now because newer ones generate warnings about reflection.  Also the docker images are much smaller.
+    sourceCompatibility = JavaVersion.VERSION_1_8
 }
 
 compileKotlin {
     kotlinOptions {
         useIR = true // Try using the new compiler https://blog.jetbrains.com/kotlin/2021/02/the-jvm-backend-is-in-beta-let-s-make-it-stable-together/
-        jvmTarget = "11"
+        jvmTarget = "1.8"
     }
 }
 
