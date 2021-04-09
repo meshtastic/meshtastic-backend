@@ -17,7 +17,8 @@ group 'org.meshtastic'
 version '1.0-SNAPSHOT'
 
 application {
-    mainClassName = "org.meshtastic.backend.MainKt"
+    // No longer used, instead we use @SpringBootApplication
+    // mainClassName = "org.meshtastic.backend.MainKt"
 }
 
 java {
@@ -63,7 +64,9 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 
     // Pull in the Spring REST controller
+    implementation "org.springframework.boot:spring-boot-starter-mustache"
     implementation "org.springframework.boot:spring-boot-starter-web"
+    developmentOnly "org.springframework.boot:spring-boot-devtools"
 
     // MQTT client lib
     // https://mvnrepository.com/artifact/org.eclipse.paho/org.eclipse.paho.client.mqttv3
