@@ -19,19 +19,27 @@ This is poorly structured and currently mostly private to @geeksville
 
 ## Service TODO
 
-* change to java 11
+* fix kermit docker containers
+* use my custom mqtt server (and passwords)  
+* stop running ezdevice process on kermit (document process first)
+* run meshtastic backend on kermit   
+* announce ready for brave users
+* figure out how to do riot bridge
+* figure out how to do global channel ids
+* take break for RAK board tasks  
+* DONE change to java 11
 * DONE setup mqtt.meshtastic.org and 
-* use https://kotlinlang.org/docs/jvm-spring-boot-restful.html#explore-the-project-build-file 
-* make kubernetes container - https://cloud.google.com/community/tutorials/kotlin-springboot-container-engine
-* use a free GKE autopilot cluster  
+* DONE use https://kotlinlang.org/docs/jvm-spring-boot-restful.html#explore-the-project-build-file 
+* DONE make kubernetes container - https://cloud.google.com/community/tutorials/kotlin-springboot-container-engine
+* REJECTED use a free GKE autopilot cluster  
 * make MQTT to pushover daemon - or just use https://github.com/jpmens/mqttwarn and https://dan.langille.org/2018/04/15/using-mtqq-to-create-a-notification-network-mosquitto-mqttwarn-hare-and-hared/
 * APRS to MQTT daemon
 * test on esp32
-* check forum
-* figure out how to do riot bridge
-* figure out how to do global channel ids
+* add crashlytics (or similar) with remote log viewing
+* thank ttgo, discourse and intellij  
 * Unify model.Channel with android code!
 * Split APRS and pushover MQTT daemons into their own projects
+* Change to use "bootBuildImage" to create docker images per https://www.baeldung.com/dockerizing-spring-boot-application
 
 ## APRS TODO
 

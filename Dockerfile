@@ -4,7 +4,7 @@ FROM openjdk:8-alpine
 MAINTAINER meshtastic.org
 VOLUME /tmp
 RUN mkdir /work
-COPY ./build/libs/backend-1.0-SNAPSHOT.jar /work/app.jar
+COPY ./release/backend-1.0-SNAPSHOT.jar /work/app.jar
 WORKDIR /work
 # RUN /work/gradlew build
 # RUN mv /work/build/libs/*.jar /work/app.jar

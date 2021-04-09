@@ -18,7 +18,12 @@ FIXME
 ## Deployment
 
 This server is built as a Kubernete image which can be deployed in many different containers.  The instructions
-below assume Google Kerbernets Engine.  (I used https://cloud.google.com/community/tutorials/kotlin-springboot-container-engine to make this).
+below assume Google Kerbernets Engine.  (I used https://cloud.google.com/community/tutorials/kotlin-springboot-container-engine
+abd https://www.baeldung.com/dockerizing-spring-boot-application to make this).
 
 1. Install https://cloud.google.com/sdk/docs/install
 2. "gcloud components install kubectl"
+3. "gcloud auth login"
+4. "gcloud config set project meshutil"
+
+    
