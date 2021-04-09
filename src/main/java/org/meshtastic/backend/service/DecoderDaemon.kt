@@ -14,7 +14,7 @@ class DecoderDaemon(private val channels: ChannelDB) : Closeable {
     private val logger = KotlinLogging.logger {}
     private val mqtt = MQTTClient()
 
-    private val cryptFilter = "mesh/crypt/#"
+    private val cryptFilter = "${Constants.cryptRoot}#"
 
     init {
         logger.debug("Creating daemon")
@@ -43,13 +43,13 @@ class DecoderDaemon(private val channels: ChannelDB) : Closeable {
                             // Show nodenums as standard nodeid strings
                             val nodeId = "!%08x".format(e.packet.from)
                             mqtt.publish(
-                                "mesh/clear/${e.channelId}/${nodeId}/${decoded.portnumValue}",
+                                "${Constants.cleartextRoot}${e.channelId}/${nodeId}/${decoded.portnumValue}",
                                 decodedEnvelope.toByteArray())
 
                             // See if we can also decode it as JSON
                             val json = decodeAsJson(decoded.portnumValue, decodedEnvelope)
                             if(json != null) {
-                                val jsonTopic = "mesh/json/${e.channelId}/${nodeId}/${decoded.portnum}"
+                                val jsonTopic = "${Constants.jsonRoot}${e.channelId}/${nodeId}/${decoded.portnum}"
                                 mqtt.publish(
                                     jsonTopic,
                                     json.toByteArray())
