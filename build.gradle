@@ -6,6 +6,11 @@ plugins {
     id 'org.jetbrains.intellij' version '0.7.2'
     id 'com.google.protobuf' version '0.8.15'
     id 'org.jetbrains.kotlin.plugin.serialization' version "1.4.32"
+
+    // Stuff for Spring
+    id "org.springframework.boot" version "2.4.4"
+    id "io.spring.dependency-management" version "1.0.11.RELEASE"
+    id 'org.jetbrains.kotlin.plugin.spring' version "1.4.32"
 }
 
 group 'org.meshtastic'
@@ -15,8 +20,15 @@ application {
     mainClassName = "org.meshtastic.backend.MainKt"
 }
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+}
+
 compileKotlin {
-    kotlinOptions.useIR = true // Try using the new compiler https://blog.jetbrains.com/kotlin/2021/02/the-jvm-backend-is-in-beta-let-s-make-it-stable-together/
+    kotlinOptions {
+        useIR = true // Try using the new compiler https://blog.jetbrains.com/kotlin/2021/02/the-jvm-backend-is-in-beta-let-s-make-it-stable-together/
+        jvmTarget = "11"
+    }
 }
 
 kotlin {
@@ -50,6 +62,9 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 
+    // Pull in the Spring REST controller
+    implementation "org.springframework.boot:spring-boot-starter-web"
+
     // MQTT client lib
     // https://mvnrepository.com/artifact/org.eclipse.paho/org.eclipse.paho.client.mqttv3
     implementation group: 'org.eclipse.paho', name: 'org.eclipse.paho.client.mqttv3', version: '1.2.5'
@@ -63,7 +78,7 @@ dependencies {
 
     // for logging see https://github.com/MicroUtils/kotlin-logging/wiki
     implementation 'io.github.microutils:kotlin-logging-jvm:2.0.6'
-    implementation 'org.slf4j:slf4j-simple:1.7.29'
+    // conflicts with Spring logging implementation 'org.slf4j:slf4j-simple:1.7.29'
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/

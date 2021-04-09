@@ -2,13 +2,42 @@
 
 This is poorly structured and currently mostly private to @geeksville
 
+## Misc geeksville todo
+
+* @luxonn reports that after a while the android app stops showing new messages
+* DONE android speed settings https://github.com/meshtastic/Meshtastic-Android/issues/271
+* fix heltec battery scaling
+  
+* check android 1.2.20 usage, possibly release to general  
+* release android APK  
+  
+## RAK board
+
+* rak wireless board, add support
+* release bin
+* add readme link
+
 ## Service TODO
 
+* change to java 11
+* DONE setup mqtt.meshtastic.org and 
+* use https://kotlinlang.org/docs/jvm-spring-boot-restful.html#explore-the-project-build-file 
+* make kubernetes container - https://cloud.google.com/community/tutorials/kotlin-springboot-container-engine
+* use a free GKE autopilot cluster  
+* make MQTT to pushover daemon - or just use https://github.com/jpmens/mqttwarn and https://dan.langille.org/2018/04/15/using-mtqq-to-create-a-notification-network-mosquitto-mqttwarn-hare-and-hared/
+* APRS to MQTT daemon
 * test on esp32
 * check forum
 * figure out how to do riot bridge
 * figure out how to do global channel ids
 * Unify model.Channel with android code!
+* Split APRS and pushover MQTT daemons into their own projects
+
+## APRS TODO
+
+* add a real ham radio flag
+* http://www.aprs-is.net/javAPRSSrvr/
+* http://www.aprs-is.net/Connecting.aspx
 
 ## Python TODO
 

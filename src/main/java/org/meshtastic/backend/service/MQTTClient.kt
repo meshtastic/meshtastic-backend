@@ -5,8 +5,10 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions
 
 /**
  * Client (wraps sign-in and paho library) for talking to our MQTT broker
+ *
+ * test.mosquitto.org
  */
-class MQTTClient(): MqttClient("tcp://test.mosquitto.org:1883", "meshtasticBackend") {
+class MQTTClient(): MqttClient("tcp://mqtt.meshtastic.org:1883", "meshtasticBackend") {
     /**
      * 0 – “at most once” semantics, also known as “fire-and-forget”. Use this option when message loss is acceptable, as it does not require any kind of acknowledgment or persistence
     1 – “at least once” semantics. Use this option when message loss is not acceptable and your subscribers can handle duplicates
