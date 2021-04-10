@@ -19,14 +19,16 @@ This is poorly structured and currently mostly private to @geeksville
 
 ## Service TODO
 
-* fix kermit docker containers
-* use my custom mqtt server (and passwords)  
+* DONE fix kermit docker containers
+* use my custom mqtt server (and passwords) as mqtt.meshtastic.org
+* hub.meshtastic.org for the web service  
 * stop running ezdevice process on kermit (document process first)
 * run meshtastic backend on kermit   
 * announce ready for brave users
 * figure out how to do riot bridge
 * figure out how to do global channel ids
 * take break for RAK board tasks  
+* increase DNS interval for lug.geeksville and mqtt.meshtastic.org (to decrease # of DNS queries clients need to make)  
 * DONE change to java 11
 * DONE setup mqtt.meshtastic.org and 
 * DONE use https://kotlinlang.org/docs/jvm-spring-boot-restful.html#explore-the-project-build-file 
