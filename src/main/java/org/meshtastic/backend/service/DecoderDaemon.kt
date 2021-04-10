@@ -14,14 +14,13 @@ import javax.annotation.PostConstruct
  */
 @Component
 class DecoderDaemon(
+    private val mqtt: MQTTClient,
     private val channels: ChannelDB,
     private val configuration: Configuration
 ) : Closeable {
     private val logger = KotlinLogging.logger {}
 
     private val filter = "${configuration.cryptRoot}#"
-
-    private val mqtt = MQTTClient()
 
     @PostConstruct
     fun initialize() {
@@ -71,7 +70,5 @@ class DecoderDaemon(
 
     override fun close() {
         mqtt.unsubscribe(filter)
-        mqtt.disconnect()
-        mqtt.close()
     }
 }
