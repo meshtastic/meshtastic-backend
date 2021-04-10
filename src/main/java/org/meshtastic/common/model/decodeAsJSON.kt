@@ -8,9 +8,6 @@ import com.googlecode.protobuf.format.JsonFormat
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 
-@Serializable
-private class EnvelopeJSON(val channelId: String, val gatewayId: String, val packet: JsonObject)
-
 /**
  * Try to decode a message as JSON if possible
  */

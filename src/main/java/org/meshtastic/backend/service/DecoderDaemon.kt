@@ -8,17 +8,17 @@ import org.meshtastic.common.model.decodeAsJson
 import java.io.Closeable
 
 /**
- * Connects via MQTT to our broker and watches for encrypted messages from devices. If it has suitable channel keys it decodes them and republishes in cleartext
+ * Connects via MQTT to our broker and watches for encrypted messages from devices. If it has suitable channel keys it
+ * decodes them and republishes in cleartext
  */
-class DecoderDaemon(private val channels: ChannelDB) : Closeable {
+class DecoderDaemon(val mqtt: MQTTClient, private val channels: ChannelDB) : Closeable {
     private val logger = KotlinLogging.logger {}
-    private val mqtt = MQTTClient()
 
-    private val cryptFilter = "${Constants.cryptRoot}#"
+    private val filter = "${Constants.cryptRoot}#"
 
     init {
         logger.debug("Creating daemon")
-        mqtt.subscribe(cryptFilter) { topic, msg ->
+        mqtt.subscribe(filter) { topic, msg ->
             val e = MQTTProtos.ServiceEnvelope.parseFrom(msg.payload)
 
             if (e.hasPacket() && e.packet.payloadVariantCase == MeshProtos.MeshPacket.PayloadVariantCase.ENCRYPTED) {
@@ -46,18 +46,7 @@ class DecoderDaemon(private val channels: ChannelDB) : Closeable {
                                 "${Constants.cleartextRoot}${e.channelId}/${nodeId}/${decoded.portnumValue}",
                                 decodedEnvelope.toByteArray())
 
-                            // See if we can also decode it as JSON
-                            val json = decodeAsJson(decoded.portnumValue, decodedEnvelope)
-                            if(json != null) {
-                                val jsonTopic = "${Constants.jsonRoot}${e.channelId}/${nodeId}/${decoded.portnum}"
-                                mqtt.publish(
-                                    jsonTopic,
-                                    json.toByteArray())
-                                logger.info("Republished $jsonTopic as $json")
-                            }
-                            else {
-                                logger.info("Republished $topic as cleartext")
-                            }
+                            logger.debug("Republished $topic as cleartext")
                         }
                         catch(ex: Exception) {
                             // Probably bad PSK
@@ -70,7 +59,6 @@ class DecoderDaemon(private val channels: ChannelDB) : Closeable {
     }
 
     override fun close() {
-        mqtt.unsubscribe(cryptFilter)
-        mqtt.close()
+        mqtt.unsubscribe(filter)
     }
 }

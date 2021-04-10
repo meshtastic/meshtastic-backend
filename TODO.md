@@ -20,10 +20,11 @@ This is poorly structured and currently mostly private to @geeksville
 ## Service TODO
 
 * DONE fix kermit docker containers
-* use my custom mqtt server (and passwords) as mqtt.meshtastic.org
-* hub.meshtastic.org for the web service  
-* stop running ezdevice process on kermit (document process first)
-* run meshtastic backend on kermit   
+* DONE use my custom mqtt server (and passwords) as mqtt.meshtastic.org
+* DONE hub.meshtastic.org for the web service  
+* DONE stop running ezdevice process on kermit (document process first)
+* DONE run meshtastic backend on kermit
+* test on esp32  
 * announce ready for brave users
 * figure out how to do riot bridge
 * figure out how to do global channel ids
@@ -33,10 +34,10 @@ This is poorly structured and currently mostly private to @geeksville
 * DONE setup mqtt.meshtastic.org and 
 * DONE use https://kotlinlang.org/docs/jvm-spring-boot-restful.html#explore-the-project-build-file 
 * DONE make kubernetes container - https://cloud.google.com/community/tutorials/kotlin-springboot-container-engine
+* have server deduplicate redundant messages before publishing as cleartext
 * REJECTED use a free GKE autopilot cluster  
 * make MQTT to pushover daemon - or just use https://github.com/jpmens/mqttwarn and https://dan.langille.org/2018/04/15/using-mtqq-to-create-a-notification-network-mosquitto-mqttwarn-hare-and-hared/
 * APRS to MQTT daemon
-* test on esp32
 * change meshub password and remove from build (to prevent impersonation)  
 * add crashlytics (or similar) with remote log viewing
 * thank ttgo, discourse and intellij  
