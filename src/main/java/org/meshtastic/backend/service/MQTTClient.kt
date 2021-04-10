@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component
  * test.mosquitto.org
  */
 @Component
-class MQTTClient(): MqttClient("tcp://mqtt.meshtastic.org:1883", MqttClient.generateClientId()) {
+class MQTTClient(): MqttClient("tcp://mqtt.meshtastic.org:1883", MqttClient.generateClientId(), null) {
     /**
      * 0 – “at most once” semantics, also known as “fire-and-forget”. Use this option when message loss is acceptable, as it does not require any kind of acknowledgment or persistence
     1 – “at least once” semantics. Use this option when message loss is not acceptable and your subscribers can handle duplicates
