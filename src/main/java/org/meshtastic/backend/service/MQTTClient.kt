@@ -2,12 +2,14 @@ package org.meshtastic.backend.service
 
 import org.eclipse.paho.client.mqttv3.MqttClient
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions
+import org.springframework.stereotype.Component
 
 /**
  * Client (wraps sign-in and paho library) for talking to our MQTT broker
  *
  * test.mosquitto.org
  */
+@Component
 class MQTTClient(): MqttClient("tcp://mqtt.meshtastic.org:1883", MqttClient.generateClientId()) {
     /**
      * 0 – “at most once” semantics, also known as “fire-and-forget”. Use this option when message loss is acceptable, as it does not require any kind of acknowledgment or persistence
@@ -27,4 +29,9 @@ class MQTTClient(): MqttClient("tcp://mqtt.meshtastic.org:1883", MqttClient.gene
     }
 
     fun publish(topic: String, msg: ByteArray) = publish(topic, msg, defaultQOS, false)
+
+    /// Force close on shutdown
+    override fun close() {
+        super.close(true)
+    }
 }

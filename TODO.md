@@ -17,6 +17,10 @@ This is poorly structured and currently mostly private to @geeksville
 * release bin
 * add readme link
 
+## device TODO
+
+* suppress sleep (so is_router can work correctly) when we have an active mqtt connection.
+
 ## Service TODO
 
 * DONE fix kermit docker containers

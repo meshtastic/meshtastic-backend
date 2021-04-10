@@ -4,20 +4,26 @@ import com.geeksville.mesh.MQTTProtos
 import com.geeksville.mesh.MeshProtos
 import mu.KotlinLogging
 import org.meshtastic.backend.model.ChannelDB
-import org.meshtastic.common.model.decodeAsJson
+import org.springframework.stereotype.Component
 import java.io.Closeable
+import javax.annotation.PostConstruct
 
 /**
  * Connects via MQTT to our broker and watches for encrypted messages from devices. If it has suitable channel keys it
  * decodes them and republishes in cleartext
  */
-class DecoderDaemon(val mqtt: MQTTClient, private val channels: ChannelDB) : Closeable {
+@Component
+class DecoderDaemon(private val mqtt: MQTTClient,
+                    private val channels: ChannelDB,
+                    private val configuration: Configuration
+                    ) : Closeable {
     private val logger = KotlinLogging.logger {}
 
-    private val filter = "${Constants.cryptRoot}#"
+    private val filter = "${configuration.cryptRoot}#"
 
-    init {
-        logger.debug("Creating daemon")
+    @PostConstruct
+    fun initialize() {
+        logger.info("Creating decrypt daemon")
         mqtt.subscribe(filter) { topic, msg ->
             val e = MQTTProtos.ServiceEnvelope.parseFrom(msg.payload)
 
@@ -43,7 +49,7 @@ class DecoderDaemon(val mqtt: MQTTClient, private val channels: ChannelDB) : Clo
                             // Show nodenums as standard nodeid strings
                             val nodeId = "!%08x".format(e.packet.from)
                             mqtt.publish(
-                                "${Constants.cleartextRoot}${e.channelId}/${nodeId}/${decoded.portnumValue}",
+                                "${configuration.cleartextRoot}${e.channelId}/${nodeId}/${decoded.portnumValue}",
                                 decodedEnvelope.toByteArray())
 
                             logger.debug("Republished $topic as cleartext")
