@@ -6,19 +6,21 @@ object Constants {
      */
     private val topicRoot = "msh/"
 
+    private val protoVersion = "1"
+
     /**
      * The root for all encrypted messages
      */
-    val cryptRoot = topicRoot + "1/c/"
+    val cryptRoot = "$topicRoot$protoVersion/c/"
 
     /**
      * The topic root for our JSON republishes
      */
-    val cleartextRoot = topicRoot + "1/clear/"
+    val cleartextRoot = "$topicRoot$protoVersion/clear/"
 
     /**
      * The topic root for our JSON republishes
      */
-    val jsonRoot = topicRoot + "1/json/"
+    val jsonRoot = "$topicRoot$protoVersion/json/"
 
 }

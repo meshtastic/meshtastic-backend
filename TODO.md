@@ -37,6 +37,7 @@ This is poorly structured and currently mostly private to @geeksville
 * make MQTT to pushover daemon - or just use https://github.com/jpmens/mqttwarn and https://dan.langille.org/2018/04/15/using-mtqq-to-create-a-notification-network-mosquitto-mqttwarn-hare-and-hared/
 * APRS to MQTT daemon
 * test on esp32
+* change meshub password and remove from build (to prevent impersonation)  
 * add crashlytics (or similar) with remote log viewing
 * thank ttgo, discourse and intellij  
 * Unify model.Channel with android code!

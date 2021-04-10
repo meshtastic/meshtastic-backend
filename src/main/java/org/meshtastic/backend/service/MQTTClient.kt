@@ -8,7 +8,7 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions
  *
  * test.mosquitto.org
  */
-class MQTTClient(): MqttClient("tcp://mqtt.meshtastic.org:1883", "meshtasticBackend") {
+class MQTTClient(): MqttClient("tcp://mqtt.meshtastic.org:1883", MqttClient.generateClientId()) {
     /**
      * 0 – “at most once” semantics, also known as “fire-and-forget”. Use this option when message loss is acceptable, as it does not require any kind of acknowledgment or persistence
     1 – “at least once” semantics. Use this option when message loss is not acceptable and your subscribers can handle duplicates
@@ -18,6 +18,8 @@ class MQTTClient(): MqttClient("tcp://mqtt.meshtastic.org:1883", "meshtasticBack
 
     init {
         val options =  MqttConnectOptions()
+        options.userName = "meshhub"
+        options.password = "ugly67turtle".toCharArray()
         options.isAutomaticReconnect = true
         options.isCleanSession = true
         options.connectionTimeout = 10

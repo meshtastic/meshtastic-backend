@@ -9,7 +9,7 @@ eval "$(docker-machine env $MACHINE)"
 
 IMAGE=meshtastic-backend
 echo stopping old copies
-docker rm -f $(docker ps -q --filter ancestor=$IMAGE )
+docker rm -f $(docker ps -q --filter name=$IMAGE ) || true
 
 echo "running container REMOTELY"
 # --restart=always FIXME turn this back on
