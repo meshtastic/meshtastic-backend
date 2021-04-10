@@ -12,41 +12,46 @@ import javax.annotation.PostConstruct
  * Connects via MQTT to our broker and watches for encrypted messages from devices. If it has suitable channel keys it decodes them and republishes in cleartext
  */
 @Component
-class ToJSONDaemon(private val mqtt: MQTTClient,
-                   private val configuration: Configuration) : Closeable {
+class ToJSONDaemon(private val configuration: Configuration) : Closeable {
     private val logger = KotlinLogging.logger {}
     private val filter = "${configuration.cleartextRoot}#"
 
+    private val mqtt = MQTTClient()
+
     @PostConstruct
     fun initialize() {
-        logger.info("Creating toJSON daemon")
-        mqtt.subscribe(filter) { topic, msg ->
-            val e = MQTTProtos.ServiceEnvelope.parseFrom(msg.payload)
+        logger.info("Creating toJSON daemon listening to $filter")
 
-            if (e.hasPacket() && e.packet.payloadVariantCase == MeshProtos.MeshPacket.PayloadVariantCase.DECODED) {
-                try {
+        mqtt.subscribe(filter) { topic, msg ->
+            try {
+                val e = MQTTProtos.ServiceEnvelope.parseFrom(msg.payload)
+
+                if (e.hasPacket() && e.packet.payloadVariantCase == MeshProtos.MeshPacket.PayloadVariantCase.DECODED) {
+
                     // Show nodenums as standard nodeid strings
                     val nodeId = "!%08x".format(e.packet.from)
 
                     // See if we can also decode it as JSON
                     val json = decodeAsJson(e.packet.decoded.portnumValue, e)
-                    if(json != null) {
+                    if (json != null) {
                         val jsonTopic = "${configuration.jsonRoot}${e.channelId}/${nodeId}/${e.packet.decoded.portnum}"
                         mqtt.publish(
                             jsonTopic,
-                            json.toByteArray())
+                            json.toByteArray()
+                        )
                         logger.debug("Republished $jsonTopic as $json")
                     }
                 }
-                catch(ex: Exception) {
-                    // Probably bad PSK
-                    logger.warn("Topic $topic, ignored due to $ex")
-                }
+            } catch (ex: Exception) {
+                // Probably bad PSK
+                logger.error("Topic $topic, ignored due to $ex")
             }
         }
     }
 
     override fun close() {
         mqtt.unsubscribe(filter)
+        mqtt.disconnect()
+        mqtt.close()
     }
 }

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component
  *
  * test.mosquitto.org
  */
-@Component
 class MQTTClient(): MqttClient("tcp://mqtt.meshtastic.org:1883", MqttClient.generateClientId()) {
     /**
      * 0 – “at most once” semantics, also known as “fire-and-forget”. Use this option when message loss is acceptable, as it does not require any kind of acknowledgment or persistence
@@ -23,7 +22,7 @@ class MQTTClient(): MqttClient("tcp://mqtt.meshtastic.org:1883", MqttClient.gene
         options.userName = "meshhub"
         options.password = "ugly67turtle".toCharArray()
         options.isAutomaticReconnect = true
-        options.isCleanSession = true
+        options.isCleanSession = false // Must be false to autoresubscribe on reconnect
         options.connectionTimeout = 10
         connect(options)
     }
