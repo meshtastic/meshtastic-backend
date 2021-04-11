@@ -4,6 +4,8 @@ This is poorly structured and currently mostly private to @geeksville
 
 ## Misc geeksville todo
 
+* do these device and android bugs, then rak wireless!
+  
 * @luxonn reports that after a while the android app stops showing new messages
 * DONE android speed settings https://github.com/meshtastic/Meshtastic-Android/issues/271
 * fix heltec battery scaling
@@ -23,13 +25,14 @@ This is poorly structured and currently mostly private to @geeksville
 
 ## Service TODO
 
+* setup cloud logging https://docs.spring.io/spring-cloud-gcp/docs/1.2.7.RELEASE/reference/html/#stackdriver-logging
 * DONE fix kermit docker containers
 * DONE use my custom mqtt server (and passwords) as mqtt.meshtastic.org
 * DONE hub.meshtastic.org for the web service  
 * DONE stop running ezdevice process on kermit (document process first)
 * DONE run meshtastic backend on kermit
-* test on esp32  
-* announce ready for brave users
+* DONE test on esp32  
+* DONE announce ready for brave users
 * figure out how to do riot bridge
 * figure out how to do global channel ids
 * take break for RAK board tasks  
