@@ -48,17 +48,9 @@ idea {
     }
 }
 
-sourceSets {
-    main {
-        java {
-            // not needed
-            // srcDirs = ['$buildDir/generated/sources/proto/main/java']
-        }
-    }
-}
-
 repositories {
     mavenCentral()
+    jcenter()
 }
 
 dependencies {
@@ -69,6 +61,9 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-mustache"
     implementation "org.springframework.boot:spring-boot-starter-web"
     developmentOnly "org.springframework.boot:spring-boot-devtools"
+
+    // For GeoJSONController
+    implementation group: 'be.ledfan', name: 'kotlin-geojson-dsl', version: '0.3.0'
 
     kapt "org.springframework.boot:spring-boot-configuration-processor"
 
