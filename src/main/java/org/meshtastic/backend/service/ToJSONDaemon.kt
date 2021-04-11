@@ -3,10 +3,10 @@ package org.meshtastic.backend.service
 import com.geeksville.mesh.MQTTProtos
 import com.geeksville.mesh.MeshProtos
 import mu.KotlinLogging
+import org.eclipse.paho.client.mqttv3.MqttMessage
+import org.meshtastic.backend.mqtt.MQTTSubscriber
 import org.meshtastic.common.model.decodeAsJson
 import org.springframework.stereotype.Component
-import java.io.Closeable
-import javax.annotation.PostConstruct
 
 /**
  * Connects via MQTT to our broker and watches for encrypted messages from devices. If it has suitable channel keys it decodes them and republishes in cleartext
@@ -15,33 +15,23 @@ import javax.annotation.PostConstruct
 class ToJSONDaemon(private val configuration: Configuration) : MQTTSubscriber("${configuration.cleartextRoot}#") {
     private val logger = KotlinLogging.logger {}
 
-    @PostConstruct
-    fun initialize() {
-        logger.info("Creating toJSON daemon listening to $topic")
+    override fun onTopicReceived(msg: MqttMessage) {
+        val e = MQTTProtos.ServiceEnvelope.parseFrom(msg.payload)
 
-        mqtt.subscribe(topic) { topic, msg ->
-            try {
-                val e = MQTTProtos.ServiceEnvelope.parseFrom(msg.payload)
+        if (e.hasPacket() && e.packet.payloadVariantCase == MeshProtos.MeshPacket.PayloadVariantCase.DECODED) {
 
-                if (e.hasPacket() && e.packet.payloadVariantCase == MeshProtos.MeshPacket.PayloadVariantCase.DECODED) {
+            // Show nodenums as standard nodeid strings
+            val nodeId = "!%08x".format(e.packet.from)
 
-                    // Show nodenums as standard nodeid strings
-                    val nodeId = "!%08x".format(e.packet.from)
-
-                    // See if we can also decode it as JSON
-                    val json = decodeAsJson(e.packet.decoded.portnumValue, e)
-                    if (json != null) {
-                        val jsonTopic = "${configuration.jsonRoot}${e.channelId}/${nodeId}/${e.packet.decoded.portnum}"
-                        mqtt.publish(
-                            jsonTopic,
-                            json.toByteArray()
-                        )
-                        logger.debug("Republished $jsonTopic as $json")
-                    }
-                }
-            } catch (ex: Exception) {
-                // Probably bad PSK
-                logger.error("Topic $topic, ignored due to $ex")
+            // See if we can also decode it as JSON
+            val json = decodeAsJson(e.packet.decoded.portnumValue, e)
+            if (json != null) {
+                val jsonTopic = "${configuration.jsonRoot}${e.channelId}/${nodeId}/${e.packet.decoded.portnum}"
+                mqtt.publish(
+                    jsonTopic,
+                    json.toByteArray()
+                )
+                logger.debug("Republished $jsonTopic as $json")
             }
         }
     }

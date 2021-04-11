@@ -5,14 +5,14 @@ import com.geeksville.mesh.MeshProtos
 import com.geeksville.mesh.Portnums
 import com.google.protobuf.GeneratedMessageV3
 import com.googlecode.protobuf.format.JsonFormat
-import kotlinx.serialization.*
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.*
 
 /**
  * Try to decode a message as JSON if possible
  */
 fun decodeAsJson(portNum: Int, e: MQTTProtos.ServiceEnvelope): String? {
-    if(e.hasPacket() && e.packet.payloadVariantCase == MeshProtos.MeshPacket.PayloadVariantCase.DECODED) {
+    if (e.hasPacket() && e.packet.payloadVariantCase == MeshProtos.MeshPacket.PayloadVariantCase.DECODED) {
         val p = e.packet
         val formatter = JsonFormat()
         val packetJsonStr = formatter.printToString(p)
@@ -21,7 +21,7 @@ fun decodeAsJson(portNum: Int, e: MQTTProtos.ServiceEnvelope): String? {
         fun makeResult(newDecoded: JsonElement): String {
             val newJSON = buildJsonObject {
                 // move over the old values - except decoded
-                packetJSON.filterKeys { it != "decoded "}.forEach { (k, v) ->
+                packetJSON.filterKeys { it != "decoded " }.forEach { (k, v) ->
                     put(k, v)
                 }
                 put("decoded", newDecoded)
@@ -50,7 +50,8 @@ fun decodeAsJson(portNum: Int, e: MQTTProtos.ServiceEnvelope): String? {
                 return makeResult(Json.encodeToJsonElement(decodedMap))
             }
 
-            else -> {}
+            else -> {
+            }
         }
     }
 

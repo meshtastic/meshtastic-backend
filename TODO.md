@@ -21,10 +21,16 @@ This is poorly structured and currently mostly private to @geeksville
 
 ## device TODO
 
+* DONE: fix "No suitable channel found for decoding, hash was 0xb1!" (not a bug, was configured as ham)
 * suppress sleep (so is_router can work correctly) when we have an active mqtt connection.
 
 ## Service TODO
 
+* geoJSON
+* don't let untrusted users see $SYS
+* don't decrypt duplicate messages
+* add crashlytics 
+* add common exception catching wrappers  
 * setup cloud logging https://docs.spring.io/spring-cloud-gcp/docs/1.2.7.RELEASE/reference/html/#stackdriver-logging
 * DONE fix kermit docker containers
 * DONE use my custom mqtt server (and passwords) as mqtt.meshtastic.org

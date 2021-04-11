@@ -1,7 +1,7 @@
 package org.meshtastic.common.model
 
-import com.google.protobuf.ByteString
 import com.geeksville.mesh.ChannelProtos
+import com.google.protobuf.ByteString
 
 /** Utility function to make it easy to declare byte arrays - FIXME move someplace better */
 fun byteArrayOfInts(vararg ints: Int) = ByteArray(ints.size) { pos -> ints[pos].toByte() }
