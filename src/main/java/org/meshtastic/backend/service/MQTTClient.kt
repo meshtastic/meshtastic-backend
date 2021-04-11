@@ -8,8 +8,9 @@ import org.springframework.stereotype.Component
  * Client (wraps sign-in and paho library) for talking to our MQTT broker
  *
  * test.mosquitto.org
+ *
+ * Note: Most subscribers of MQTTClient must have their own instance, because the paho subscription code only allows one handler per unique topic string
  */
-@Component
 class MQTTClient(): MqttClient("tcp://mqtt.meshtastic.org:1883", MqttClient.generateClientId(), null) {
     /**
      * 0 – “at most once” semantics, also known as “fire-and-forget”. Use this option when message loss is acceptable, as it does not require any kind of acknowledgment or persistence
@@ -29,10 +30,4 @@ class MQTTClient(): MqttClient("tcp://mqtt.meshtastic.org:1883", MqttClient.gene
     }
 
     fun publish(topic: String, msg: ByteArray) = publish(topic, msg, defaultQOS, false)
-
-    /// Force close on shutdown
-    override fun close() {
-        disconnect()
-        super.close(true)
-    }
 }

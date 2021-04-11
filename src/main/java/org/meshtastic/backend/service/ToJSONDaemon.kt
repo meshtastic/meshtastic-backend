@@ -12,17 +12,14 @@ import javax.annotation.PostConstruct
  * Connects via MQTT to our broker and watches for encrypted messages from devices. If it has suitable channel keys it decodes them and republishes in cleartext
  */
 @Component
-class ToJSONDaemon(private val mqtt: MQTTClient, private val configuration: Configuration) : Closeable {
+class ToJSONDaemon(private val configuration: Configuration) : MQTTSubscriber("${configuration.cleartextRoot}#") {
     private val logger = KotlinLogging.logger {}
-    private val filter = "${configuration.cleartextRoot}#"
-
-
 
     @PostConstruct
     fun initialize() {
-        logger.info("Creating toJSON daemon listening to $filter")
+        logger.info("Creating toJSON daemon listening to $topic")
 
-        mqtt.subscribe(filter) { topic, msg ->
+        mqtt.subscribe(topic) { topic, msg ->
             try {
                 val e = MQTTProtos.ServiceEnvelope.parseFrom(msg.payload)
 
@@ -47,9 +44,5 @@ class ToJSONDaemon(private val mqtt: MQTTClient, private val configuration: Conf
                 logger.error("Topic $topic, ignored due to $ex")
             }
         }
-    }
-
-    override fun close() {
-        mqtt.unsubscribe(filter)
     }
 }

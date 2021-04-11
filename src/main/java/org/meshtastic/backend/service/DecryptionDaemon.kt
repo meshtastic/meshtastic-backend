@@ -13,19 +13,16 @@ import javax.annotation.PostConstruct
  * decodes them and republishes in cleartext
  */
 @Component
-class DecoderDaemon(
-    private val mqtt: MQTTClient,
+class DecryptionDaemon(
     private val channels: ChannelDB,
     private val configuration: Configuration
-) : Closeable {
+) : MQTTSubscriber("${configuration.cryptRoot}#") {
     private val logger = KotlinLogging.logger {}
-
-    private val filter = "${configuration.cryptRoot}#"
 
     @PostConstruct
     fun initialize() {
-        logger.info("Creating decrypt daemon listening to $filter")
-        mqtt.subscribe(filter) { topic, msg ->
+        logger.info("Creating decrypt daemon listening to $topic")
+        mqtt.subscribe(topic) { topic, msg ->
             try {
                 val e = MQTTProtos.ServiceEnvelope.parseFrom(msg.payload)
 
@@ -66,9 +63,5 @@ class DecoderDaemon(
                 logger.error("Topic $topic, ignored due to $ex")
             }
         }
-    }
-
-    override fun close() {
-        mqtt.unsubscribe(filter)
     }
 }
