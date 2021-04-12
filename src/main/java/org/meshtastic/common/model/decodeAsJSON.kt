@@ -28,51 +28,47 @@ private val mapper = ObjectMapper().apply {
 /**
  * Try to decode a message as JSON if possible
  */
-fun decodeAsJson(portNum: Int, e: MQTTProtos.ServiceEnvelope): String? {
-    try {
-        if (e.hasPacket() && e.packet.payloadVariantCase == MeshProtos.MeshPacket.PayloadVariantCase.DECODED) {
-            // The google protobuf to json stuff doesn't seem to work reliably for binary arrays packet.decoded.payload
-            //val noPayload = p.toBuilder().clearDecoded().build()
-            val p = e.packet
-            val packetJsonStr = mapper.writeValueAsString(p)
-            val packetJSON = Json.parseToJsonElement(packetJsonStr) as JsonObject
+fun decodeAsJson(unused: ObjectMapper, portNum: Int, e: MQTTProtos.ServiceEnvelope): String? {
+    if (e.hasPacket() && e.packet.payloadVariantCase == MeshProtos.MeshPacket.PayloadVariantCase.DECODED) {
+        // The google protobuf to json stuff doesn't seem to work reliably for binary arrays packet.decoded.payload
+        //val noPayload = p.toBuilder().clearDecoded().build()
+        val p = e.packet
+        val packetJsonStr = mapper.writeValueAsString(p)
+        val packetJSON = Json.parseToJsonElement(packetJsonStr) as JsonObject
 
-            fun makeResult(newDecoded: JsonElement): String {
-                val newJSON = buildJsonObject {
-                    // move over the old values - except decoded
-                    packetJSON.filterKeys { it != "decoded " }.forEach { (k, v) ->
-                        put(k, v)
-                    }
-                    put("decoded", newDecoded)
+        fun makeResult(newDecoded: JsonElement): String {
+            val newJSON = buildJsonObject {
+                // move over the old values - except decoded
+                packetJSON.filterKeys { it != "decoded " }.forEach { (k, v) ->
+                    put(k, v)
                 }
-
-                val env = EnvelopeJSON(e.channelId, e.gatewayId, newJSON)
-                return Json.encodeToString(env)
+                put("decoded", newDecoded)
             }
 
-            val port = Portnums.PortNum.forNumber(portNum)
-            val asProtobuf = decodeAsProtobuf(e.packet)
-            val payload = p.decoded.payload.toByteArray()
+            val env = EnvelopeJSON(e.channelId, e.gatewayId, newJSON)
+            return Json.encodeToString(env)
+        }
 
-            when {
-                knownTextPorts.contains(port) -> {
-                    val asStr = payload.toString(Charsets.UTF_8)
+        val port = Portnums.PortNum.forNumber(portNum)
+        val asProtobuf = decodeAsProtobuf(e.packet)
+        val payload = p.decoded.payload.toByteArray()
 
-                    return makeResult(Json.encodeToJsonElement(asStr))
-                }
-                asProtobuf != null -> {
-                    val json = mapper.writeValueAsString(asProtobuf)
-                    val decodedMap = Json.parseToJsonElement(json)
+        when {
+            knownTextPorts.contains(port) -> {
+                val asStr = payload.toString(Charsets.UTF_8)
 
-                    return makeResult(Json.encodeToJsonElement(decodedMap))
-                }
+                return makeResult(Json.encodeToJsonElement(asStr))
+            }
+            asProtobuf != null -> {
+                val json = mapper.writeValueAsString(asProtobuf)
+                val decodedMap = Json.parseToJsonElement(json)
 
-                else -> {
-                }
+                return makeResult(Json.encodeToJsonElement(decodedMap))
+            }
+
+            else -> {
             }
         }
-    } catch (ex: Exception) {
-        println("I suck")
     }
 
     return null
