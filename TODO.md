@@ -32,6 +32,7 @@ This is poorly structured and currently mostly private to @geeksville
 * add crashlytics 
 * add common exception catching wrappers  
 * setup cloud logging https://docs.spring.io/spring-cloud-gcp/docs/1.2.7.RELEASE/reference/html/#stackdriver-logging
+* Use an internal eventbus to launch coroutines anytime we see a new cleartext message (Use this to refactor ToJSONDaemon and DBMaintenanceDaemon)  
 * DONE fix kermit docker containers
 * DONE use my custom mqtt server (and passwords) as mqtt.meshtastic.org
 * DONE hub.meshtastic.org for the web service  

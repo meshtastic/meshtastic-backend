@@ -29,7 +29,8 @@ java {
 
 compileKotlin {
     kotlinOptions {
-        useIR = true // Try using the new compiler https://blog.jetbrains.com/kotlin/2021/02/the-jvm-backend-is-in-beta-let-s-make-it-stable-together/
+        useIR = true
+        // Try using the new compiler https://blog.jetbrains.com/kotlin/2021/02/the-jvm-backend-is-in-beta-let-s-make-it-stable-together/
         jvmTarget = "1.8"
     }
 }
@@ -63,7 +64,12 @@ dependencies {
     developmentOnly "org.springframework.boot:spring-boot-devtools"
 
     // For GeoJSONController
-    implementation group: 'be.ledfan', name: 'kotlin-geojson-dsl', version: '0.3.0'
+    // https://mvnrepository.com/artifact/de.grundid.opendatalab/geojson-jackson
+    implementation group: 'de.grundid.opendatalab', name: 'geojson-jackson', version: '1.14'
+
+    // To auto serialize protobufs as json
+    // https://mvnrepository.com/artifact/com.hubspot.jackson/jackson-datatype-protobuf
+    implementation group: 'com.hubspot.jackson', name: 'jackson-datatype-protobuf', version: '0.9.12'
 
     kapt "org.springframework.boot:spring-boot-configuration-processor"
 
@@ -74,10 +80,7 @@ dependencies {
     implementation 'com.google.protobuf:protobuf-java:3.15.7'
 
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0"
-
-    // https://mvnrepository.com/artifact/com.googlecode.protobuf-java-format/protobuf-java-format
-    implementation group: 'com.googlecode.protobuf-java-format', name: 'protobuf-java-format', version: '1.4'
-
+    
     // for logging see https://github.com/MicroUtils/kotlin-logging/wiki
     implementation 'io.github.microutils:kotlin-logging-jvm:2.0.6'
     // conflicts with Spring logging implementation 'org.slf4j:slf4j-simple:1.7.29'

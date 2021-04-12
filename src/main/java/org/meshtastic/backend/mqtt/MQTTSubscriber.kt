@@ -8,7 +8,7 @@ import javax.annotation.PostConstruct
 /**
  * Common sugar for using MQTTClient
  */
-open class MQTTSubscriber(
+abstract class MQTTSubscriber(
     protected val topic: String
 ) : Closeable {
     private val logger = KotlinLogging.logger {}
@@ -20,8 +20,7 @@ open class MQTTSubscriber(
         mqtt.close(true)
     }
 
-    open fun onTopicReceived(msg: MqttMessage) {
-    }
+    abstract fun onTopicReceived(msg: MqttMessage)
 
     @PostConstruct
     fun initialize() {
