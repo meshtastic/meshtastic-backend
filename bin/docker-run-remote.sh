@@ -4,8 +4,10 @@ echo "updating container with latest code"
 bin/docker-build.sh
 
 # use our remote server
-MACHINE=lug
-eval "$(docker-machine env $MACHINE)"
+# MACHINE=lug
+# eval "$(docker-machine env $MACHINE)"
+
+export DOCKER_HOST=ssh://root@lug.geeksville.com
 
 IMAGE=meshtastic-backend
 echo stopping old copies
