@@ -42,12 +42,14 @@ class GeoJSONController(private val nodes: NodeDB) {
 
                 val u = it.user
                 if (u != null)
-                    f.setProperty("name", u.longName)
+                    f.setProperty("longName", u.longName)
+                f.setProperty("lastHeard", it.lastHeard)
                 f.setProperty("position", it.position)
+                f.setProperty("user", it.user)
                 f.geometry = Point(p.longitude, p.latitude)
                 f
             } else
-                null
+                null // Skip - no position found
         }
 
         fc.addAll(positionNodes)

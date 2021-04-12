@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component
  */
 @Component
 class NodeDB {
-    private val seedNodes = listOf(Node("!deadbeef"))
+    private val seedNodes = listOf<Node>()
 
     // FIXME temp hack DB impl
     val db = seedNodes.associateBy { it.id }.toMutableMap()

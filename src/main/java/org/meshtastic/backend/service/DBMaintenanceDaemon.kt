@@ -7,6 +7,7 @@ import mu.KotlinLogging
 import org.meshtastic.backend.model.NodeDB
 import org.meshtastic.common.model.decodeAsProtobuf
 import org.springframework.stereotype.Component
+import java.util.*
 
 /**
  * Updates our global node db
@@ -24,8 +25,9 @@ class DBMaintenanceDaemon(private val configuration: Configuration, private val 
         val nodeId = "!%08x".format(e.packet.from)
         val d = e.packet.decoded
         val n = nodes.getOrCreate(nodeId)
+        n.lastHeard = Date()
         val asProtobuf = decodeAsProtobuf(e.packet)
-        logger.debug("Updating NodeDB $nodeId withd.portNum")
+        logger.debug("Updating NodeDB $nodeId with ${d.portnum}")
         if (asProtobuf != null)
             when (d.portnum) {
                 Portnums.PortNum.POSITION_APP -> n.position = asProtobuf as MeshProtos.Position?

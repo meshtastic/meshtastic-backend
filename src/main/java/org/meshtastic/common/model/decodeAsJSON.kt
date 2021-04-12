@@ -5,7 +5,6 @@ import com.geeksville.mesh.MQTTProtos
 import com.geeksville.mesh.MeshProtos
 import com.geeksville.mesh.Portnums
 import com.google.protobuf.GeneratedMessageV3
-import com.hubspot.jackson.datatype.protobuf.ProtobufModule
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.*
 
@@ -20,15 +19,15 @@ fun decodeAsProtobuf(p: MeshProtos.MeshPacket) =
     }
 
 
-// FIXME - use the global spring ObjectMapper instead
-private val mapper = ObjectMapper().apply {
+/* FIXME - use the global spring ObjectMapper instead
+private val unused = ObjectMapper().apply {
     registerModule(ProtobufModule())
-}
+} */
 
 /**
  * Try to decode a message as JSON if possible
  */
-fun decodeAsJson(unused: ObjectMapper, portNum: Int, e: MQTTProtos.ServiceEnvelope): String? {
+fun decodeAsJson(mapper: ObjectMapper, portNum: Int, e: MQTTProtos.ServiceEnvelope): String? {
     if (e.hasPacket() && e.packet.payloadVariantCase == MeshProtos.MeshPacket.PayloadVariantCase.DECODED) {
         // The google protobuf to json stuff doesn't seem to work reliably for binary arrays packet.decoded.payload
         //val noPayload = p.toBuilder().clearDecoded().build()
