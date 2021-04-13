@@ -2,16 +2,16 @@ plugins {
     id 'java'
     id 'application'
     id 'idea'
-    id "org.jetbrains.kotlin.jvm" version "1.4.32"
+    id "org.jetbrains.kotlin.jvm" version "$kotlinVersion"
     id 'org.jetbrains.intellij' version '0.7.2'
     id 'com.google.protobuf' version '0.8.15'
-    id 'org.jetbrains.kotlin.plugin.serialization' version "1.4.32"
+    id 'org.jetbrains.kotlin.plugin.serialization' version "$kotlinVersion"
 
     // Stuff for Spring
-    id "org.jetbrains.kotlin.kapt" version "1.4.32"
+    id "org.jetbrains.kotlin.kapt" version "$kotlinVersion"
     id "org.springframework.boot" version "2.4.4"
     id "io.spring.dependency-management" version "1.0.11.RELEASE"
-    id 'org.jetbrains.kotlin.plugin.spring' version "1.4.32"
+    id 'org.jetbrains.kotlin.plugin.spring' version "$kotlinVersion"
 }
 
 group 'org.meshtastic'
@@ -77,10 +77,10 @@ dependencies {
     // https://mvnrepository.com/artifact/org.eclipse.paho/org.eclipse.paho.client.mqttv3
     implementation group: 'org.eclipse.paho', name: 'org.eclipse.paho.client.mqttv3', version: '1.2.5'
 
-    implementation 'com.google.protobuf:protobuf-java:3.15.7'
+    implementation 'com.google.protobuf:protobuf-java:3.15.8'
 
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0"
-    
+
     // for logging see https://github.com/MicroUtils/kotlin-logging/wiki
     implementation 'io.github.microutils:kotlin-logging-jvm:2.0.6'
     // conflicts with Spring logging implementation 'org.slf4j:slf4j-simple:1.7.29'

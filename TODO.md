@@ -1,18 +1,9 @@
-## MQTT TODO 
+## MQTT TODO
 
 This is poorly structured and currently mostly private to @geeksville
 
 ## Misc geeksville todo
 
-* do these device and android bugs, then rak wireless!
-  
-* @luxonn reports that after a while the android app stops showing new messages
-* DONE android speed settings https://github.com/meshtastic/Meshtastic-Android/issues/271
-* fix heltec battery scaling
-  
-* check android 1.2.20 usage, possibly release to general  
-* release android APK  
-  
 ## RAK board
 
 * rak wireless board, add support
@@ -26,38 +17,43 @@ This is poorly structured and currently mostly private to @geeksville
 
 ## Service TODO
 
-* geoJSON
+* expose recent messages
+* find internal eventbus idea (coroutine based?)
+* DONE geoJSON
 * don't let untrusted users see $SYS
 * don't decrypt duplicate messages
-* add crashlytics 
-* add common exception catching wrappers  
+* add crashlytics
+* add common exception catching wrappers
 * setup cloud logging https://docs.spring.io/spring-cloud-gcp/docs/1.2.7.RELEASE/reference/html/#stackdriver-logging
-* Use an internal eventbus to launch coroutines anytime we see a new cleartext message (Use this to refactor ToJSONDaemon and DBMaintenanceDaemon)  
+* Use an internal eventbus to launch coroutines anytime we see a new cleartext message (Use this to refactor
+  ToJSONDaemon and DBMaintenanceDaemon)
 * DONE fix kermit docker containers
 * DONE use my custom mqtt server (and passwords) as mqtt.meshtastic.org
-* DONE hub.meshtastic.org for the web service  
+* DONE hub.meshtastic.org for the web service
 * DONE stop running ezdevice process on kermit (document process first)
 * DONE run meshtastic backend on kermit
-* DONE test on esp32  
+* DONE test on esp32
 * DONE announce ready for brave users
 * figure out how to do riot bridge
 * figure out how to do global channel ids
-* take break for RAK board tasks  
-* increase DNS interval for lug.geeksville and mqtt.meshtastic.org (to decrease # of DNS queries clients need to make)  
+* take break for RAK board tasks
+* increase DNS interval for lug.geeksville and mqtt.meshtastic.org (to decrease # of DNS queries clients need to make)
 * DONE change to java 11
-* DONE setup mqtt.meshtastic.org and 
-* DONE use https://kotlinlang.org/docs/jvm-spring-boot-restful.html#explore-the-project-build-file 
+* DONE setup mqtt.meshtastic.org and
+* DONE use https://kotlinlang.org/docs/jvm-spring-boot-restful.html#explore-the-project-build-file
 * DONE make kubernetes container - https://cloud.google.com/community/tutorials/kotlin-springboot-container-engine
 * have server deduplicate redundant messages before publishing as cleartext
-* REJECTED use a free GKE autopilot cluster  
-* make MQTT to pushover daemon - or just use https://github.com/jpmens/mqttwarn and https://dan.langille.org/2018/04/15/using-mtqq-to-create-a-notification-network-mosquitto-mqttwarn-hare-and-hared/
+* REJECTED use a free GKE autopilot cluster
+* make MQTT to pushover daemon - or just use https://github.com/jpmens/mqttwarn
+  and https://dan.langille.org/2018/04/15/using-mtqq-to-create-a-notification-network-mosquitto-mqttwarn-hare-and-hared/
 * APRS to MQTT daemon
-* change meshub password and remove from build (to prevent impersonation)  
+* change meshub password and remove from build (to prevent impersonation)
 * add crashlytics (or similar) with remote log viewing
-* thank ttgo, discourse and intellij  
+* thank ttgo, discourse and intellij
 * Unify model.Channel with android code!
 * Split APRS and pushover MQTT daemons into their own projects
-* Change to use "bootBuildImage" to create docker images per https://www.baeldung.com/dockerizing-spring-boot-application
+* Change to use "bootBuildImage" to create docker images
+  per https://www.baeldung.com/dockerizing-spring-boot-application
 
 ## APRS TODO
 
@@ -83,17 +79,18 @@ This is poorly structured and currently mostly private to @geeksville
 * DONE have plugin send uplinks to mesh
 * have plugin send downlinks from mesh
 * DONE don't decrypt messages before uplinking them to MQTT (move out of plugin)
-* make a named "GlobalPub" secondary channel, enable uplink (only) for that channel.  Short name on purpose.
-* add python option for --mqtt-enable, create publicuplink channel   
+* make a named "GlobalPub" secondary channel, enable uplink (only) for that channel. Short name on purpose.
+* add python option for --mqtt-enable, create publicuplink channel
 * optionally send positions on the PublicUplink channel
 * DONE attempt reconnect to server if internet connectivity changes
 * DONE don't bother contacting server if we don't have any uplink/downlink channels
 * DONE test on ESP32
 * DONE no need for python gateway to web initially: because both the simulator and ESP32 can talk wifi directly
 * if simmesh_name is set in preferences, create the MQTTSimInterface using that as the global channel_id
-* figure out how to use MQTT for simulator mesh network, use a special simmesh_name global channel_id? (because this would allow all nodes in simnet_xxx to subscribe only to those packets)
+* figure out how to use MQTT for simulator mesh network, use a special simmesh_name global channel_id? (because this
+  would allow all nodes in simnet_xxx to subscribe only to those packets)
 * figure out legality of hosting public mqtt servers with chat msgs
-* mqtt.meshtastic.org should have VERY basic auth at launch (to prevent abuse)  
+* mqtt.meshtastic.org should have VERY basic auth at launch (to prevent abuse)
 * DONE do initial development inside of portduino
 * DONE do as much possible on the device side (so we can eventually just have ESP32 talk directly to server)
 * DONE add mqtt_server to radio prefs
