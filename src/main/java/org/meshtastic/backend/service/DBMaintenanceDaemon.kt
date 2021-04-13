@@ -32,6 +32,8 @@ class DBMaintenanceDaemon(private val configuration: Configuration, private val 
             when (d.portnum) {
                 Portnums.PortNum.POSITION_APP -> n.position = asProtobuf as MeshProtos.Position?
                 Portnums.PortNum.NODEINFO_APP -> n.user = asProtobuf as MeshProtos.User?
+                else -> {
+                } // ignore
             }
     }
 }

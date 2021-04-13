@@ -80,9 +80,9 @@ data class Channel(
             return "#${name}-${suffix}"
         }
 
-    override fun equals(o: Any?): Boolean = (o is Channel)
-        && psk.toByteArray() contentEquals o.psk.toByteArray()
-        && name == o.name
+    override fun equals(other: Any?): Boolean = (other is Channel)
+        && psk.toByteArray() contentEquals other.psk.toByteArray()
+        && name == other.name
 }
 
 fun xorHash(b: ByteArray) = b.fold(0, { acc, x -> acc xor (x.toInt() and 0xff) })

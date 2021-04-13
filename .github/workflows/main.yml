@@ -50,8 +50,15 @@ jobs:
           submodules: 'recursive'
 
       # Runs a single command using the runners shell
-      - name: Build works
+      - name: Build with gradle
         run: ./gradlew build
+
+      - name: Cleanup Gradle Cache
+        # Remove some files from the Gradle cache, so they aren't cached by GitHub Actions.
+        # Restoring these files from a GitHub Actions cache might cause problems for future builds.
+        run: |
+          rm -f ~/.gradle/caches/modules-2/modules-2.lock
+          rm -f ~/.gradle/caches/modules-2/gc.properties
 
       # Per https://docs.github.com/en/actions/guides/building-and-testing-java-with-gradle#packaging-workflow-data-as-artifacts
       - uses: actions/upload-artifact@v2
