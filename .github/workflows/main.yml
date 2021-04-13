@@ -31,7 +31,19 @@ jobs:
         with:
           distribution: 'adopt' # See 'Supported distributions' for available options
           java-version: '11'
-    
+
+      # per https://docs.github.com/en/actions/guides/building-and-testing-java-with-gradle#caching-dependencies
+      # speeds up future builds
+      - name: Cache Gradle packages
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
         with:
@@ -40,3 +52,9 @@ jobs:
       # Runs a single command using the runners shell
       - name: Build works
         run: ./gradlew build
+
+      # Per https://docs.github.com/en/actions/guides/building-and-testing-java-with-gradle#packaging-workflow-data-as-artifacts
+      - uses: actions/upload-artifact@v2
+        with:
+          name: Package
+          path: build/libs
