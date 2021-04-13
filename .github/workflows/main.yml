@@ -38,5 +38,5 @@ jobs:
           submodules: 'recursive'
 
       # Runs a single command using the runners shell
-      - name: Test with gradle
-        run: ./gradlew test --stacktrace
+      - name: Build works
+        run: ./gradlew build
