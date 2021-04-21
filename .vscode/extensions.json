@@ -1,0 +1,10 @@
+{
+    // See http://go.microsoft.com/fwlink/?LinkId=827846
+    // for the documentation about the extensions.json format
+    "recommendations": [
+        "fwcd.kotlin",
+        "naco-siren.gradle-language",
+        "richardwillis.vscode-gradle",
+        "vscjava.vscode-java-pack"
+    ]
+}
