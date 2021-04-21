@@ -1,0 +1,41 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.162.0/containers/java
+{
+	"name": "ForBackend",
+	
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"vscjava.vscode-java-pack",
+		"fwcd.kotlin",
+		"naco-siren.gradle-language",
+		"richardwillis.vscode-gradle"
+	],
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "java -version",
+
+	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	"remoteUser": "vscode",
+
+	// Get submodules
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": {
+			"VARIANT": "11",
+			"INSTALL_MAVEN": "false",
+			"INSTALL_GRADLE": "true",
+			"INSTALL_NODE": "false",
+			"NODE_VERSION": "lts/*"
+		}
+	},
+	"settings": {
+		"terminal.integrated.shell.linux": "/bin/bash",
+		"java.home": "/docker-java-home"
+	},
+	
+	// Get submodules
+	"postCreateCommand": "git submodule update --init; sudo apt-get update; sudo apt-get install -y protobuf-compiler python3-distutils"
+}
