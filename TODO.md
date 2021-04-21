@@ -4,6 +4,11 @@ This is poorly structured and currently mostly private to @geeksville
 
 ## Misc geeksville todo
 
+https://github.com/protocolbuffers/protobuf/releases/download/v3.15.8/protoc-3.15.8-linux-x86_64.zip
+	"initializeCommand": "sudo apt-get update; sudo apt-get install -y openjdk-11-jdk python3-distutils; wget https://github.com/protocolbuffers/protobuf/releases/download/v3.15.8/protoc-3.15.8-linux-x86_64.zip -O /tmp/protoc.zip; cd /tmp; unzip protoc.zip; chmod a+x bin/protoc; sudo cp bin/protoc /usr/local/bin",
+
+	"postCreateCommand": "git submodule update --init"
+
 ## RAK board
 
 * rak wireless board, add support
