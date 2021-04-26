@@ -7,7 +7,9 @@ import org.geojson.Point
 import org.meshtastic.backend.model.NodeDB
 import org.meshtastic.common.model.Position
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.RestController
+import javax.servlet.http.HttpServletResponse
 
 /**
 A Controller that returns various endpoints of GeoJSON, formatted to be easily passable to Leaflet.js.
@@ -30,7 +32,8 @@ Leaflet likes feature collections of features like this
 class GeoJSONController(private val nodes: NodeDB) {
 
     @RequestMapping("$apiPrefix/geoJSON/nodes")
-    fun getNodes(): FeatureCollection {
+    @ResponseBody
+    fun getNodes(response: HttpServletResponse): FeatureCollection {
         val fc = FeatureCollection()
 
         val positionNodes = nodes.db.values.mapNotNull {
@@ -53,6 +56,8 @@ class GeoJSONController(private val nodes: NodeDB) {
         }
 
         fc.addAll(positionNodes)
+
+        response.setHeader("Access-Control-Allow-Origin", "*")
         return fc
     }
 }

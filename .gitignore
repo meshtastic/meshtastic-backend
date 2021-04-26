@@ -153,8 +153,7 @@ gradle-app.setting
 
 # @geeksville/kevinh
 *tcptest*
-
 release
-
 meshtasticBackend*
 paho*
+bin/main
