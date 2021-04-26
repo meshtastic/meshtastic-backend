@@ -18,7 +18,9 @@ echo "running container REMOTELY"
 
 PUBLIC_PORT=80
 # -p 443:8443 we are now using nginix to do SSL
-docker run --rm --name meshtastic-backend -h lug.geeksville.com -p $PUBLIC_PORT:8080  -d $IMAGE
+# -h lug.geeksville.com
+# (-d means disconnect)
+docker run --rm --name $IMAGE -p $PUBLIC_PORT:8080 -d $IMAGE
 docker ps
 # (first number is the public port number exposed on the host)
 
