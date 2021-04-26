@@ -9,6 +9,10 @@ import org.meshtastic.common.model.Position
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.bind.annotation.RestController
+import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
+import java.util.*
 import javax.servlet.http.HttpServletResponse
 
 /**
@@ -30,6 +34,10 @@ Leaflet likes feature collections of features like this
  */
 @RestController
 class GeoJSONController(private val nodes: NodeDB) {
+
+    // RFC1123 date per https://stackoverflow.com/questions/7707555/getting-date-in-http-format-in-java
+    private val dateFormat =
+        DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss z", Locale.ENGLISH).withZone(ZoneId.of("GMT"))
 
     @RequestMapping("$apiPrefix/geoJSON/nodes")
     @ResponseBody
@@ -57,7 +65,16 @@ class GeoJSONController(private val nodes: NodeDB) {
 
         fc.addAll(positionNodes)
 
+        // permissive CORS
         response.setHeader("Access-Control-Allow-Origin", "*")
+
+        val now = ZonedDateTime.now()
+        response.setHeader("Last-Modified", dateFormat.format(now))
+
+        // Forbid caching (for now)
+        response.setHeader("Cache-Control", "no-store"); // HTTP 1.1.
+        response.setHeader("Pragma", "no-cache"); // HTTP 1.0.
+        response.setHeader("Expires", "0"); // Proxies.
         return fc
     }
 }
