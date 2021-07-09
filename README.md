@@ -1,7 +1,5 @@
 # Meshtastic-backend
-
-![Current Build Status](https://github.com/meshtastic/meshtastic-backend/actions/workflows/main.yml/badge.svg)
-
+[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/meshtastic/meshtastic-backend)
 
 This is the backend server code for talking to devices via our (optional) MQTT internet gateway.  It runs on hub.meshtastic.org.  
 
