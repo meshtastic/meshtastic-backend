@@ -39,6 +39,12 @@ kotlin {
 }
 
 protobuf {
+    // Configure the protoc executable
+    protoc {
+        // Download from repositories (newer versions generate a build error about missing isStringEqual method)
+        artifact = 'com.google.protobuf:protoc:3.17.3'
+    }
+
     generatedFilesBaseDir = "$buildDir/generated/sources/proto"
 }
 
