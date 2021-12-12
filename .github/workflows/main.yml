@@ -4,64 +4,65 @@ name: Continuous Integration
 
 # Controls when the action will run. 
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+    # Triggers the workflow on push or pull request events but only for the master branch
+    push:
+        branches: [ master ]
+    pull_request:
+        branches: [ master ]
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
+    # Allows you to run this workflow manually from the Actions tab
+    workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    # This workflow contains a single job called "build"
+    build:
+        # The type of runner that the job will run on
+        runs-on: ubuntu-latest
 
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
+        # Steps represent a sequence of tasks that will be executed as part of the job
+        steps:
 
-      - name: Install Protoc
-        uses: arduino/setup-protoc@v1
+            # no longer needed - we now get protoc via gradle plugin
+            # - name: Install Protoc
+            #  uses: arduino/setup-protoc@v1
 
-      # Get Java
-      - uses: actions/setup-java@v2
-        with:
-          distribution: 'adopt' # See 'Supported distributions' for available options
-          java-version: '11'
+            # Get Java
+            -   uses: actions/setup-java@v2
+                with:
+                    distribution: 'adopt' # See 'Supported distributions' for available options
+                    java-version: '11'
 
-      # per https://docs.github.com/en/actions/guides/building-and-testing-java-with-gradle#caching-dependencies
-      # speeds up future builds
-      - name: Cache Gradle packages
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+            # per https://docs.github.com/en/actions/guides/building-and-testing-java-with-gradle#caching-dependencies
+            # speeds up future builds
+            -   name: Cache Gradle packages
+                uses: actions/cache@v2
+                with:
+                    path: |
+                        ~/.gradle/caches
+                        ~/.gradle/wrapper
+                    key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+                    restore-keys: |
+                        ${{ runner.os }}-gradle-
 
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-        with:
-          submodules: 'recursive'
+            # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+            -   uses: actions/checkout@v2
+                with:
+                    submodules: 'recursive'
 
-      # Runs a single command using the runners shell
-      - name: Build with gradle
-        run: ./gradlew build
+            # Runs a single command using the runners shell
+            -   name: Build with gradle
+                run: ./gradlew build
 
-      - name: Cleanup Gradle Cache
-        # Remove some files from the Gradle cache, so they aren't cached by GitHub Actions.
-        # Restoring these files from a GitHub Actions cache might cause problems for future builds.
-        run: |
-          rm -f ~/.gradle/caches/modules-2/modules-2.lock
-          rm -f ~/.gradle/caches/modules-2/gc.properties
+            -   name: Cleanup Gradle Cache
+                # Remove some files from the Gradle cache, so they aren't cached by GitHub Actions.
+                # Restoring these files from a GitHub Actions cache might cause problems for future builds.
+                run: |
+                    rm -f ~/.gradle/caches/modules-2/modules-2.lock
+                    rm -f ~/.gradle/caches/modules-2/gc.properties
 
-      # Per https://docs.github.com/en/actions/guides/building-and-testing-java-with-gradle#packaging-workflow-data-as-artifacts
-      - uses: actions/upload-artifact@v2
-        with:
-          name: Package
-          path: build/libs
+            # Per https://docs.github.com/en/actions/guides/building-and-testing-java-with-gradle#packaging-workflow-data-as-artifacts
+            -   uses: actions/upload-artifact@v2
+                with:
+                    name: Package
+                    path: build/libs
