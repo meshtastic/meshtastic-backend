@@ -4,12 +4,12 @@ plugins {
     id 'idea'
     id "org.jetbrains.kotlin.jvm" version "$kotlinVersion"
     id 'org.jetbrains.intellij' version '0.7.2'
-    id 'com.google.protobuf' version '0.8.15'
+    id 'com.google.protobuf' version '0.8.18'
     id 'org.jetbrains.kotlin.plugin.serialization' version "$kotlinVersion"
 
     // Stuff for Spring
     id "org.jetbrains.kotlin.kapt" version "$kotlinVersion"
-    id "org.springframework.boot" version "2.4.4"
+    id "org.springframework.boot" version "2.5.7" // 2.4.13 ok but 2.6.1 is not
     id "io.spring.dependency-management" version "1.0.11.RELEASE"
     id 'org.jetbrains.kotlin.plugin.spring' version "$kotlinVersion"
 }
@@ -51,11 +51,11 @@ idea {
 
 repositories {
     mavenCentral()
-    jcenter()
+    // jcenter()
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
 
     // Pull in the Spring REST controller
@@ -77,13 +77,16 @@ dependencies {
     // https://mvnrepository.com/artifact/org.eclipse.paho/org.eclipse.paho.client.mqttv3
     implementation group: 'org.eclipse.paho', name: 'org.eclipse.paho.client.mqttv3', version: '1.2.5'
 
-    implementation 'com.google.protobuf:protobuf-java:3.15.8'
+    implementation 'com.google.protobuf:protobuf-java:3.19.1'
 
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.1.0"
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1'
 
     // for logging see https://github.com/MicroUtils/kotlin-logging/wiki
-    implementation 'io.github.microutils:kotlin-logging-jvm:2.0.6'
+    implementation 'io.github.microutils:kotlin-logging-jvm:2.1.16'
     // conflicts with Spring logging implementation 'org.slf4j:slf4j-simple:1.7.29'
+
+    // Manually specify the newer version of jetbrains annotations?
+    // implementation 'org.jetbrains:annotations:23.0.0'
 }
 
 // See https://github.com/JetBrains/gradle-intellij-plugin/
