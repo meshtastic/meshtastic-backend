@@ -1,7 +1,7 @@
 # Meshtastic-backend
 
 ![Current Build Status](https://github.com/meshtastic/meshtastic-backend/actions/workflows/main.yml/badge.svg)
-
+[![CLA assistant](https://cla-assistant.io/readme/badge/meshtastic/meshtastic-backend)](https://cla-assistant.io/meshtastic/meshtastic-backend)
 
 This is the backend server code for talking to devices via our (optional) MQTT internet gateway.  It runs on hub.meshtastic.org.  
 
